@@ -84,8 +84,15 @@ function Request() {
                   onChange={onChange}
                   placeholder="--- เลือกสาขา ---"
                 >
-                  <option value={"CS"}>CS</option>
-                  <option value={"IT"}>IT</option>
+                  <option value={"ST"}>สถิติ</option>
+                  <option value={"CM"}>เคมี</option>
+                  <option value={"MT"}>คณิตศาสตร์</option>
+                  <option value={"AP"}>ฟิสิกส์ประยุกต์</option>
+                  <option value={"MS"}>วัสดุศาสตร์</option>
+                  <option value={"BO"}>เทคโนโลยีชีวภาพ</option>
+                  <option value={"CS"}>วิทยาการคอมพิวเตอร์</option>
+                  <option value={"IT"}>เทคโนโลยีสารสนเทศ</option>
+                  <option value={"ICT"}>เคมีอุตสาหกรรมและเทคโนโลยีสิ่งทอ</option>
                 </Select>
               </Flex>
             </FormControl>

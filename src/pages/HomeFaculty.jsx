@@ -107,17 +107,24 @@ function Home() {
               <Thead bg={"green"}>
                 <Tr>
                   <Th color={"#fff"} textAlign={"center"}>
-                    ประเภทปฏิบัติงาน
+                    ลำดับ
                   </Th>
                   <Th color={"#fff"} textAlign={"center"}>
-                    ชื่อสถานประกอบการ
+                    สาขาวิชา
                   </Th>
                   <Th color={"#fff"} textAlign={"center"}>
                     รายชื่อนักศึกษา
                   </Th>
                   <Th color={"#fff"} textAlign={"center"}>
-                    จักการ
+                    ประเภทหนังสือ
                   </Th>
+                  <Th color={"#fff"} textAlign={"center"}>
+                    ประเภทปฏิบัติงาน
+                  </Th>
+                  <Th color={"#fff"} textAlign={"center"}>
+                    ดูข้อมูล
+                  </Th>
+
                 </Tr>
               </Thead>
               <Tbody>

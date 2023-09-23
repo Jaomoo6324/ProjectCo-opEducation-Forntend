@@ -5,11 +5,29 @@ import {
   Divider,
   MenuDivider,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-function SideBar() {
+function SideBar({ setIsLogin }) {
+  const navigate = useNavigate();
+  const toast = useToast()
+
+  //functions
+  const logOut = () => {
+    setIsLogin(false);
+    navigate("/login");
+    toast({
+      position:"top",
+      title: 'ออกจากระบบสำเร็จ',
+      description: "กำลังออกจากระบบ",
+      status: 'success',
+      duration: 3000,
+      isClosable: true,
+    })
+
+  };
   return (
     <Box border={"1px"} minH={"100vh"} minW={"100%"}>
       
@@ -46,7 +64,9 @@ function SideBar() {
 
       <Divider />
       <Center mt={2}>
-        <Button bg={"red.200"}>ออกจากระบบ</Button>
+        <Button onClick={() => logOut()} bg={"red.200"}>
+          ออกจากระบบ
+        </Button>
       </Center>
     </Box>
   );

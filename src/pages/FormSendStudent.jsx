@@ -83,15 +83,15 @@ function Request() {
                   onChange={onChange}
                   placeholder="--- เลือกสาขา ---"
                 >
-                  <option value={"ST"}>สถิติ</option>
-                  <option value={"CM"}>เคมี</option>
-                  <option value={"MT"}>คณิตศาสตร์</option>
-                  <option value={"AP"}>ฟิสิกส์ประยุกต์</option>
-                  <option value={"MS"}>วัสดุศาสตร์</option>
-                  <option value={"BO"}>เทคโนโลยีชีวภาพ</option>
-                  <option value={"CS"}>วิทยาการคอมพิวเตอร์</option>
-                  <option value={"IT"}>เทคโนโลยีสารสนเทศ</option>
-                  <option value={"ICT"}>เคมีอุตสาหกรรมและเทคโนโลยีสิ่งทอ</option>
+                  <option value={"CS"}>สาขาวิชาวิทยาการคอมพิวเตอร์</option>
+                  <option value={"BO"}>สาขาเทคโนโลยีชีวภาพ</option>
+                  <option value={"CM"}>สาขาเคมี</option>
+                  <option value={"ST"}>สาขาวิชาสถิติ</option>
+                  <option value={"IT"}>สาขาวิชาเทคโนโลยีสารสนเทศ</option>
+                  <option value={"MT"}>สาขาวิชาคณิตศาสตร์</option>
+                  <option value={"MS"}>สาขาวิชาวัสดุศาสตร์</option>
+                  <option value={"ICT"}>สาขาเคมีอุตสาหกรรมและเทคโนโลยีสิ่งทอ</option>
+                  <option value={"AP"}>สาขาวิชาฟสิกส์ประยุกต์</option>
                 </Select>
               </Flex>
             </FormControl>
@@ -105,7 +105,7 @@ function Request() {
             render={({ field: { name, onChange } }) => (
               <FormControl isInvalid={errors[name]} mt={4}>
                 <Flex>
-                  <FormLabel>ประเภทปฏิบัติงาน</FormLabel>
+                  <FormLabel>ประเภทการปฏิบัติงาน</FormLabel>
                   <RadioGroup onChange={onChange}>
                     <Stack spacing={5} direction="column">
                       <Radio colorScheme="green" value="ฝึกงาน">
@@ -120,7 +120,8 @@ function Request() {
               </FormControl>
             )}
           />
-          <Controller
+  
+          {/* <Controller
             name="coopYear"
             control={control}
             defaultValue={""}
@@ -140,7 +141,27 @@ function Request() {
                 </Flex>
               </FormControl>
             )}
+          /> */}
+
+          <Controller
+            name="coopYear"
+            control={control}
+            rules={{ required: true }}
+            render={({ field: { name, onChange } }) => (
+              <FormControl ml={5} isInvalid={errors[name]} mt={4}>
+                <Flex>
+                  <Select onChange={onChange} placeholder="ปีการศึกษา">
+                    <option value="2566">2566</option>
+                    <option value="2065">2565</option>
+                    <option value="2064">2564</option>
+                    <option value="2063">2563</option>
+                    <option value="2062">2562</option>
+                  </Select>
+                </Flex>
+              </FormControl>
+            )}
           />
+
           <Controller
             name="term"
             control={control}

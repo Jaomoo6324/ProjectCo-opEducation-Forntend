@@ -16,10 +16,11 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Bred from "../components/Bred";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
+import { Link, useParams } from "react-router-dom";
 
 function Request() {
   const [isLoading, setIsLoading] = useState(false);
@@ -27,44 +28,97 @@ function Request() {
     control,
     handleSubmit,
     formState: { errors },
+    setValue
   } = useForm();
+
+  useEffect(() => {
+    setValue("yearcoop",new Date().getFullYear()+543);
+
+  }, []);
+
   const submitData = async (data) => {
     setIsLoading(true);
     const student = {
-      firstName: data.firstName,
-      lastName: data.lastName,
-      studentId: data.studentId,
-      phone: data.phoneStudent,
-      email: data.emailStudent,
+      student_name: data.firstName,
+      student_lastname: data.lastName,
+      student_id: data.studentId,
+      student_phone_no: data.phoneStudent,
+      student_email: data.emailStudent,
     };
     const company = {
-      c_name: data.company,
-      c_address: data.address,
-      c_phone: data.phone,
-      c_email: data.email,
+      company_name: data.namecompany,
+      company_address: data.addresscompany,
+      company_phone_no: data.phonecompany,
+      company_email: data.emailcompany,
+      company_line: data.linecompany,
+      company_facebook: data.facebookcompany,
     };
-    const document = {
-      d_branch: data.major,
-      d_coopYear: data.coopYear,
-      d_term: data.term,
-      d_start_date: data.dateStart,
-      d_end_date: data.dateEnd,
-      d_type: data.type,
+    // const document = {
+    //   doc_name: data.namedocument,
+    //   doc_upload_date: data.uploaddate,
+    //   // d_branch: data.major,
+    //   // d_coopYear: data.coopYear,
+    //   // d_term: data.term,
+    //   // d_start_date: data.dateStart,
+    //   // d_end_date: data.dateEnd,
+    //   // d_type: data.type,
+    // };
+    const coopEducation = {
+      coop_name: data.namecoop,
+      coop_year: data.yearcoop,
+      coop_term: data.termcoop,
+      coop_start_date: data.startdatecoop,
+      coop_end_date: data.enddatecoop,
+      status: data.statuscoop,
+      kindofwork_name: data.kindofworkname,
     };
-    await axios.post("http://localhost:8080/student", student);
-    await axios.post("http://localhost:8080/company", company);
-    await axios.post("http://localhost:8080/document", document);
-    console.log(student,company,document)
+    // const staff = {
+    //   staff_name: data.namestaff,
+    //   staff_lastname: data.lastnamestaff,
+    //   staff_phone_no: data.phonenostaff,
+    //   staff_role: data.role,
+    //   staff_email: data.email,
+    //   staff_password: data.password,
+    // };
+    const major = {
+      major_name: data.major,
+    };
+
+    // const history = useHistor();
+    // const {id} = useParams();
+
+    if(id){
+      await axios.post("http://localhost:8080/student", student);
+      await axios.post("http://localhost:8080/company", company);
+       // await axios.post("http://localhost:8080/document", document);
+      await axios.post("http://localhost:8080/coopEducation", coopEducation);
+      // await axios.post("http://localhost:8080/staff", staff);
+      await axios.post("http://localhost:8080/major", major);
+    
+    } else {
+      await axios.put("http://localhost:8080/student", student);
+      await axios.put("http://localhost:8080/company", company);
+       // await axios.post("http://localhost:8080/document", document);
+      await axios.put("http://localhost:8080/coopEducation", coopEducation);
+      // await axios.post("http://localhost:8080/staff", staff);
+      await axios.put("http://localhost:8080/major", major);
+    }
+    
+
+    console.log(student,company,coopEducation,major)
     setIsLoading(false);
+
+  
   };
   return (
     <Box minW={"100%"}>
       <Bred data={"แบบฟอร์มขอความอนุเคราะห์ผึกงานและสหกิจ"} />
       <Divider my={2} />
       <Box my={4}>
-        <Heading as={"h4"} size={"md"} textAlign={"center"}>
+        <Heading as={"h4"} size={"md"} textAlign={"center"} name="namecoop" value="ขอความอนุเคราะห์">
           แบบฟอร์มขอความอนุเคราะห์ผึกงานและสหกิจ
         </Heading>
+         
       </Box>
       <Text color={"red"}>
         *ยังไม่มีใบตอบรับจากสถานประกอบการให้กรอกฟอร์มนี้*
@@ -100,7 +154,7 @@ function Request() {
         />
         <Flex>
           <Controller
-            name="type"
+            name="kindofworkname"
             control={control}
             rules={{ required: true }}
             render={({ field: { name, onChange } }) => (
@@ -145,26 +199,28 @@ function Request() {
           /> */}
 
           <Controller
-            name="coopYear"
+            name="yearcoop"
             control={control}
             rules={{ required: true }}
-            render={({ field: { name, onChange } }) => (
+            render={({ field: { name,value, onChange } }) => (
               <FormControl ml={5} isInvalid={errors[name]} mt={4}>
                 <Flex>
-                  <Select onChange={onChange} placeholder="ปีการศึกษา">
-                    <option value="2566">2566</option>
-                    <option value="2065">2565</option>
-                    <option value="2064">2564</option>
-                    <option value="2063">2563</option>
-                    <option value="2062">2562</option>
-                  </Select>
+                <FormLabel minW={"90px"}>ปีการศึกษา</FormLabel>
+                <Input
+                    value={value}
+                    onChange={onChange}
+                    placeholder="Select year"
+                    size="md"
+                    type="text"
+                    isDisabled
+                  />
                 </Flex>
               </FormControl>
             )}
           />
 
           <Controller
-            name="term"
+            name="termcoop"
             control={control}
             rules={{ required: true }}
             render={({ field: { name, onChange } }) => (
@@ -181,7 +237,7 @@ function Request() {
         </Flex>
         <Flex>
           <Controller
-            name="dateStart"
+            name="startdatecoop"
             control={control}
             rules={{ required: true }}
             render={({ field: { name, value, onChange } }) => (
@@ -200,7 +256,7 @@ function Request() {
             )}
           />
           <Controller
-            name="dateEnd"
+            name="enddatecoop"
             control={control}
             rules={{ required: true }}
             render={({ field: { name, value, onChange } }) => (
@@ -224,7 +280,7 @@ function Request() {
           <Box>
             <Box>
               <Controller
-                name="company"
+                name="namecompany"
                 control={control}
                 rules={{ required: true }}
                 defaultValue={""}
@@ -240,14 +296,10 @@ function Request() {
             </Box>
             <Box>
               <Controller
-                name="phone"
+                name="phonecompany"
                 control={control}
                 defaultValue={""}
-                rules={{
-                  pattern: {
-                    value: /\d/,
-                  },
-                }}
+                rules={{ required: true }}
                 render={({ field: { name, value, onChange } }) => (
                   <FormControl isInvalid={errors[name]} mt={4}>
                     <Flex alignItems={"center"}>
@@ -260,7 +312,7 @@ function Request() {
             </Box>
             <Box>
               <Controller
-                name="email"
+                name="emailcompany"
                 control={control}
                 defaultValue={""}
                 rules={{ required: true }}
@@ -274,10 +326,42 @@ function Request() {
                 )}
               />
             </Box>
+            <Box>
+              <Controller
+                name="linecompany"
+                control={control}
+                defaultValue={""}
+                rules={{ required: true }}
+                render={({ field: { name, value, onChange } }) => (
+                  <FormControl isInvalid={errors[name]} mt={4}>
+                    <Flex alignItems={"center"}>
+                      <FormLabel minW={"90px"}>ไลน์</FormLabel>
+                      <Input type="linefacebook" value={value} onChange={onChange} />
+                    </Flex>
+                  </FormControl>
+                )}
+              />
+            </Box>
+            <Box>
+              <Controller
+                name="facebookcompany"
+                control={control}
+                defaultValue={""}
+                rules={{ required: true }}
+                render={({ field: { name, value, onChange } }) => (
+                  <FormControl isInvalid={errors[name]} mt={4}>
+                    <Flex alignItems={"center"}>
+                      <FormLabel minW={"90px"}>เฟสบุ้ค</FormLabel>
+                      <Input type="companyfacebook" value={value} onChange={onChange} />
+                    </Flex>
+                  </FormControl>
+                )}
+              />
+            </Box>
           </Box>
           <Box>
             <Controller
-              name="address"
+              name="addresscompany"
               control={control}
               defaultValue={""}
               rules={{ required: true }}
@@ -316,11 +400,12 @@ function Request() {
                 name="studentId"
                 control={control}
                 defaultValue={""}
-                rules={{
-                  pattern: {
-                    value: /\d/,
-                  },
-                }}
+                rules={{ required: true }}
+                // rules={{
+                //   pattern: {
+                //     value: /\d/,
+                //   },
+                // }}
                 render={({ field: { name, value, onChange } }) => (
                   <FormControl isInvalid={errors[name]} mt={4}>
                     <Flex alignItems={"center"}>
@@ -393,15 +478,17 @@ function Request() {
           </Box>
         </Center>
         <Center my={3}>
+          
           <Button
             isLoading={isLoading}
             type="submit"
             mx={4}
-            colorScheme="green"
+            colorScheme="green" 
           >
             บันทึก
           </Button>
-          <Button type="reset" colorScheme="#fff" color={"#000"}>
+          
+          <Button type="reset" colorScheme="#fff" color={"#000"} >
             รีเซ็ต
           </Button>
         </Center>

@@ -27,14 +27,13 @@ function Login({ isLogin, setUser, setIsLogin }) {
   const [logins, setLogins] = useState();
   //functions
   const login = (data) => {
+    
     const email = data.email;
     const password = data.password;
-    const cPassword = data.cPassword;
-    console.log(data);
-
     
+    console.log(data);
       axios
-        .get("http://localhost:8080/user/getall")
+        .get("http://localhost:8080/staff/getall")
         .then((res) => {
           // if (res.status === 409) {
           //   console.log('Not found user!');
@@ -49,6 +48,7 @@ function Login({ isLogin, setUser, setIsLogin }) {
           // } else if (res.status === 200) {
           //   console.log('Found user!');
           // }
+
           let user = "";
           const users = res.data;
           users.forEach((item) => {

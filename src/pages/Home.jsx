@@ -9,6 +9,7 @@ import {
   Input,
   InputGroup,
   InputLeftElement,
+  ListItem,
   Table,
   Tbody,
   Td,
@@ -22,47 +23,78 @@ import Bred from "../components/Bred";
 import { Controller, useForm } from "react-hook-form";
 import { AiOutlineSearch } from "react-icons/ai";
 import axios from "axios";
+import { Link, useNavigate } from "react-router-dom";
+
 
 function Home() {
   const { control } = useForm();
-  const [data1, setData1] = useState();
-  const [data2, setData2] = useState();
-  const [data3, setData3] = useState();
+  const [data1, setData1] = useState([]);
+  const [data2, setData2] = useState([]);
+  const [data3, setData3] = useState([]);
+
   const [allData, setAllData] = useState([]);
+  const navigate = useNavigate();
+  const [isTrigger,setIstrigger] = useState(false)
+
+  // const [data4, setData4] = useState();
+  // const [data5, setData5] = useState();
+
   useEffect(() => {
-    getDate();
-  }, []);
+    getData();
+  }, [isTrigger]);
+
   useEffect(() => {
     combind();
   }, [data3]);
-  const getDate = async () => {
+
+  const onDelete = (id) =>{
+    axios.delete(`http://localhost:8080/student/${id}`).then((res) => console.log(res)) 
+    setIstrigger(!isTrigger)
+  };
+  
+
+  const getData = async () => {
     await axios.get("http://localhost:8080/student").then((res) => {
       setData1(res.data);
     });
     await axios.get("http://localhost:8080/company").then((res) => {
       setData2(res.data);
     });
-    await axios.get("http://localhost:8080/document").then((res) => {
+    await axios.get("http://localhost:8080/coopEducation").then((res) => {
       setData3(res.data);
     });
+
+    // await axios.get("http://localhost:8080/document").then((res) => {
+    //   setData3(res.data);
+    // });
+    // await axios.get("http://localhost:8080/staff").then((res) => {
+    //   setData4(res.data);
+    // });
+    // await axios.get("http://localhost:8080/major").then((res) => {
+    //   setData5(res.data);
+    // });
   };
+  
+  
   const combind = () => {
-    if (data1 && data2 && data3) {
+    if (data1.length > 0 && data2.length > 0 && data3.length > 0) {
       console.log("combind");
       let allList = [];
       let list = {};
       data1.forEach((item, index) => {
         list = {
-          s_firstName: data1[index].firstName,
-          s_lastName: data1[index].lastName,
-          c_name: data2[index].c_name,
-          d_type: data3[index].d_type,
+          s_name: item.student_name,
+          s_lastName: item.student_lastname,
+          c_name: data2[index]?.company_name,
+          k_name: data3[index]?.kindofwork_name,
         };
+        console.log(list)
         allList.push(list);
       });
       setAllData(allList);
     }
   };
+
   return (
     <Box minW={"100%"}>
       <Bred />
@@ -124,17 +156,24 @@ function Home() {
                 {allData &&
                   allData.map((item, index) => (
                     <Tr key={index}>
-                      <Td textAlign={"center"}>{item.d_type}</Td>
+                      <Td textAlign={"center"}>{item.k_name}</Td>
                       <Td textAlign={"center"}>{item.c_name}</Td>
                       <Td textAlign={"center"}>
-                        {item.s_firstName} {item.s_lastName}
+                        {item.s_name} {item.sName}
                       </Td>
                       <Td textAlign={"center"}>
                         <Flex>
-                          <Button mx={2} colorScheme="yellow">
-                            แก้ไข
+                          <Button mx={2} colorScheme="yellow" onClick={() => navigate(`/EditRequestForm/${item.id}`)}>
+                              แก้ไข
                           </Button>
-                          <Button colorScheme="red">ลบ</Button>
+                          <Button 
+                          colorScheme="red" 
+                          className = "delete" 
+                          onClick = {() => onDelete(item.id)}
+                          style = {{marginLeft:"10px"}}
+                          > 
+                          ลบ
+                          </Button>
                         </Flex>
                       </Td>
                     </Tr>

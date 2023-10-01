@@ -9,6 +9,7 @@ import ListRequest from "./pages/ListRequest";
 import ListSendStudent from "./pages/ListSendStudent";
 import ListStatus from "./pages/ListStatus";
 import Login from "./pages/Login";
+import EditRequestForm from "./pages/EditRequestForm";
 
 function App() {
   const [isLogin, setIsLogin] = useState(false);
@@ -50,6 +51,8 @@ function App() {
                 <Route path="/listRequest" element={<ListRequest />} />
                 <Route path="/listSendStudent" element={<ListSendStudent />} />
                 <Route path="/listStatus" element={<ListStatus />} />
+                <Route path="/EditRequestForm/:id" element={<EditRequestForm />} />
+
               </>
             ) : (
               <Route path="/login" element={<Login isLogin={isLogin} setUser={setUser} setIsLogin={setIsLogin} />} />

@@ -35,6 +35,7 @@ function Home() {
   useEffect(() => {
     combind();
   }, [data3]);
+
   const getDate = async () => {
     await axios.get("http://localhost:8080/student").then((res) => {
       setData1(res.data);
@@ -46,6 +47,7 @@ function Home() {
       setData3(res.data);
     });
   };
+  
   const combind = () => {
     if (data1 && data2 && data3) {
       console.log("combind");
